@@ -1,0 +1,319 @@
+
+phase6.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <fEQhoBZaZh>:
+   0:	55                   	push   %ebp
+   1:	89 e5                	mov    %esp,%ebp
+   3:	83 ec 10             	sub    $0x10,%esp
+   6:	c7 45 f1 6f 48 74 6d 	movl   $0x6d74486f,-0xf(%ebp)
+   d:	c7 45 f5 5a 54 72 51 	movl   $0x5172545a,-0xb(%ebp)
+  14:	66 c7 45 f9 6a 46    	movw   $0x466a,-0x7(%ebp)
+  1a:	c6 45 fb 00          	movb   $0x0,-0x5(%ebp)
+  1e:	c7 45 fc 0b 00 00 00 	movl   $0xb,-0x4(%ebp)
+  25:	83 7d 08 00          	cmpl   $0x0,0x8(%ebp)
+  29:	78 15                	js     40 <fEQhoBZaZh+0x40>
+  2b:	8b 45 08             	mov    0x8(%ebp),%eax
+  2e:	3b 45 fc             	cmp    -0x4(%ebp),%eax
+  31:	7d 0d                	jge    40 <fEQhoBZaZh+0x40>
+  33:	8d 55 f1             	lea    -0xf(%ebp),%edx
+  36:	8b 45 08             	mov    0x8(%ebp),%eax
+  39:	01 d0                	add    %edx,%eax
+  3b:	0f b6 00             	movzbl (%eax),%eax
+  3e:	eb 05                	jmp    45 <fEQhoBZaZh+0x45>
+  40:	b8 00 00 00 00       	mov    $0x0,%eax
+  45:	c9                   	leave
+  46:	c3                   	ret
+
+00000047 <transform_code>:
+  47:	55                   	push   %ebp
+  48:	89 e5                	mov    %esp,%ebp
+  4a:	53                   	push   %ebx
+  4b:	e8 fc ff ff ff       	call   4c <transform_code+0x5>
+  50:	81 c3 02 00 00 00    	add    $0x2,%ebx
+  //%ebx=PC+2+GOT (the first)
+  56:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+  //jwvjZX CTA
+  5c:	8b 55 0c             	mov    0xc(%ebp),%edx
+  5f:	8b 04 90             	mov    (%eax,%edx,4),%eax
+  //*(CTA+mode)
+  62:	83 e0 07             	and    $0x7,%eax
+  65:	83 f8 07             	cmp    $0x7,%eax
+  68:	0f 87 85 00 00 00    	ja     f3 <.L6>
+  6e:	c1 e0 02             	shl    $0x2,%eax
+  //CT[mode]<<2
+  71:	8b 84 18 5c 00 00 00 	mov    0x5c(%eax,%ebx,1),%eax
+  //.rodata+5c+(CT[mode]<<2+thefirststatic) switch's address
+  78:	01 d8                	add    %ebx,%eax
+  //+thefirststatic
+  7a:	ff e0                	jmp    *%eax
+
+0000007c <.L7>:
+  7c:	f7 55 08             	notl   0x8(%ebp)
+  7f:	eb 76                	jmp    f7 <.L6+0x4>
+
+00000081 <.L9>:
+  81:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+  //jwvjZX CTA
+  87:	8b 55 0c             	mov    0xc(%ebp),%edx
+  8a:	8b 04 90             	mov    (%eax,%edx,4),%eax
+  8d:	83 e0 03             	and    $0x3,%eax
+  //CT[mode]&3
+  90:	89 c1                	mov    %eax,%ecx
+  92:	d3 7d 08             	sarl   %cl,0x8(%ebp)
+  //code>>=(CT[mode]&3)
+  95:	eb 60                	jmp    f7 <.L6+0x4>
+
+00000097 <.L10>:
+  97:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+  9d:	8b 55 0c             	mov    0xc(%ebp),%edx
+  a0:	8b 04 90             	mov    (%eax,%edx,4),%eax
+  a3:	f7 d0                	not    %eax
+  //!CT[mode]
+  a5:	21 45 08             	and    %eax,0x8(%ebp)
+  //code=!CT[mode]&code
+  a8:	eb 4d                	jmp    f7 <.L6+0x4>
+
+000000aa <.L11>:
+  aa:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+  //CT
+  b0:	8b 55 0c             	mov    0xc(%ebp),%edx
+  b3:	8b 04 90             	mov    (%eax,%edx,4),%eax
+  b6:	c1 e0 08             	shl    $0x8,%eax
+  b9:	09 45 08             	or     %eax,0x8(%ebp)
+  //code|=CT[mode]<<8
+  bc:	eb 39                	jmp    f7 <.L6+0x4>
+
+000000be <.L12>:
+  be:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+  c4:	8b 55 0c             	mov    0xc(%ebp),%edx
+  c7:	8b 04 90             	mov    (%eax,%edx,4),%eax
+  ca:	31 45 08             	xor    %eax,0x8(%ebp)
+  //code^=CT[mode]
+  cd:	eb 28                	jmp    f7 <.L6+0x4>
+
+000000cf <.L13>:
+  cf:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+  d5:	8b 55 0c             	mov    0xc(%ebp),%edx
+  d8:	8b 04 90             	mov    (%eax,%edx,4),%eax
+  db:	f7 d0                	not    %eax
+  dd:	09 45 08             	or     %eax,0x8(%ebp)
+  //code|=!CT[mode]
+  e0:	eb 15                	jmp    f7 <.L6+0x4>
+
+000000e2 <.L14>:
+  e2:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+  e8:	8b 55 0c             	mov    0xc(%ebp),%edx
+  eb:	8b 04 90             	mov    (%eax,%edx,4),%eax
+  ee:	01 45 08             	add    %eax,0x8(%ebp)
+  //code+=CT[mode]
+  f1:	eb 04                	jmp    f7 <.L6+0x4>
+
+000000f3 <.L6>:
+  f3:	f7 5d 08             	negl   0x8(%ebp)
+  f6:	90                   	nop
+  f7:	8b 45 08             	mov    0x8(%ebp),%eax
+  // return code
+  fa:	5b                   	pop    %ebx
+  fb:	5d                   	pop    %ebp
+  fc:	c3                   	ret
+
+000000fd <generate_code>:
+  fd:	55                   	push   %ebp
+  fe:	89 e5                	mov    %esp,%ebp
+ 100:	53                   	push   %ebx
+ 101:	83 ec 24             	sub    $0x24,%esp
+ 104:	e8 fc ff ff ff       	call   105 <generate_code+0x8>
+ 109:	81 c3 02 00 00 00    	add    $0x2,%ebx
+ //COT thefirst
+ 10f:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+ //&VynfDE CODE
+ 115:	8b 55 08             	mov    0x8(%ebp),%edx
+ 118:	89 10                	mov    %edx,(%eax)
+ //CODE=cookie
+ 11a:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+ 121:	eb 23                	jmp    146 <generate_code+0x49>
+ 123:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+ //&VynfDE
+ 129:	8b 00                	mov    (%eax),%eax
+ 12b:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 12e:	89 54 24 04          	mov    %edx,0x4(%esp)
+ 132:	89 04 24             	mov    %eax,(%esp)
+ 135:	e8 fc ff ff ff       	call   136 <generate_code+0x39>
+ //transform_code(code = CODE, mode = i)
+ 13a:	8b 93 00 00 00 00    	mov    0x0(%ebx),%edx
+ //CODE
+ 140:	89 02                	mov    %eax,(%edx)
+ //CODE = return code
+ 142:	83 45 f4 01          	addl   $0x1,-0xc(%ebp)
+ 146:	8b 45 f4             	mov    -0xc(%ebp),%eax
+ 149:	83 f8 0e             	cmp    $0xe,%eax
+ //i<14
+ 14c:	76 d5                	jbe    123 <generate_code+0x26>
+ 14e:	83 c4 24             	add    $0x24,%esp
+ 151:	5b                   	pop    %ebx
+ 152:	5d                   	pop    %ebp
+ 153:	c3                   	ret
+
+00000154 <encode_1>:
+ 154:	55                   	push   %ebp
+ 155:	89 e5                	mov    %esp,%ebp
+ 157:	53                   	push   %ebx
+ 158:	83 ec 24             	sub    $0x24,%esp
+ 15b:	e8 fc ff ff ff       	call   15c <encode_1+0x8>
+ 160:	81 c3 02 00 00 00    	add    $0x2,%ebx
+ //%ebx=GOT
+ 166:	8b 45 08             	mov    0x8(%ebp),%eax
+ 169:	89 04 24             	mov    %eax,(%esp)
+ 16c:	e8 fc ff ff ff       	call   16d <encode_1+0x19>
+ //strlen
+ 171:	89 45 f0             	mov    %eax,-0x10(%ebp)
+ //n=strlen
+ 174:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+ //i
+ 17b:	eb 5d                	jmp    1da <encode_1+0x86>
+ 17d:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ //i
+ 180:	8b 45 08             	mov    0x8(%ebp),%eax
+ 183:	8d 0c 02             	lea    (%edx,%eax,1),%ecx
+ //%ecx=&str[i]
+ 186:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 189:	8b 45 08             	mov    0x8(%ebp),%eax
+ 18c:	01 d0                	add    %edx,%eax
+ 18e:	0f b6 00             	movzbl (%eax),%eax
+ //%eax=str[i]
+ 191:	0f be c0             	movsbl %al,%eax
+ 194:	8b 93 00 00 00 00    	mov    0x0(%ebx),%edx
+ //DICT
+ 19a:	0f b6 14 02          	movzbl (%edx,%eax,1),%edx
+ 19e:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+ //&CODE
+ 1a4:	8b 00                	mov    (%eax),%eax
+ 1a6:	31 d0                	xor    %edx,%eax
+ 1a8:	83 e0 7f             	and    $0x7f,%eax
+ //(CODE^i)&7f
+ 1ab:	88 01                	mov    %al,(%ecx)
+ //str[i]=
+ 1ad:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ //%edx=i
+ 1b0:	8b 45 08             	mov    0x8(%ebp),%eax
+ 1b3:	01 d0                	add    %edx,%eax
+ 1b5:	0f b6 00             	movzbl (%eax),%eax
+ //%eax=str[i]
+ 1b8:	3c 1f                	cmp    $0x1f,%al
+ //str[i]<=1f
+ 1ba:	7e 0f                	jle    1cb <encode_1+0x77>
+ 1bc:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 1bf:	8b 45 08             	mov    0x8(%ebp),%eax
+ 1c2:	01 d0                	add    %edx,%eax
+ 1c4:	0f b6 00             	movzbl (%eax),%eax
+ 1c7:	3c 7f                	cmp    $0x7f,%al
+ 1c9:	75 0b                	jne    1d6 <encode_1+0x82>
+ //in if
+ 1cb:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 1ce:	8b 45 08             	mov    0x8(%ebp),%eax
+ 1d1:	01 d0                	add    %edx,%eax
+ 1d3:	c6 00 3f             	movb   $0x3f,(%eax)
+ //str[i]=0x3f
+ 1d6:	83 45 f4 01          	addl   $0x1,-0xc(%ebp)
+ 1da:	8b 45 f4             	mov    -0xc(%ebp),%eax
+ 1dd:	3b 45 f0             	cmp    -0x10(%ebp),%eax
+ //i<n
+ 1e0:	7c 9b                	jl     17d <encode_1+0x29>
+ 1e2:	8b 45 f0             	mov    -0x10(%ebp),%eax
+ 1e5:	83 c4 24             	add    $0x24,%esp
+ 1e8:	5b                   	pop    %ebx
+ 1e9:	5d                   	pop    %ebp
+ 1ea:	c3                   	ret
+
+000001eb <encode_2>:
+ 1eb:	55                   	push   %ebp
+ 1ec:	89 e5                	mov    %esp,%ebp
+ 1ee:	53                   	push   %ebx
+ 1ef:	83 ec 24             	sub    $0x24,%esp
+ 1f2:	e8 fc ff ff ff       	call   1f3 <encode_2+0x8>
+ 1f7:	81 c3 02 00 00 00    	add    $0x2,%ebx
+ 1fd:	8b 45 08             	mov    0x8(%ebp),%eax
+ 200:	89 04 24             	mov    %eax,(%esp)
+ 203:	e8 fc ff ff ff       	call   204 <encode_2+0x19>
+ 208:	89 45 f0             	mov    %eax,-0x10(%ebp)
+ 20b:	c7 45 f4 00 00 00 00 	movl   $0x0,-0xc(%ebp)
+ 212:	eb 5d                	jmp    271 <encode_2+0x86>
+ 214:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 217:	8b 45 08             	mov    0x8(%ebp),%eax
+ 21a:	8d 0c 02             	lea    (%edx,%eax,1),%ecx
+ 21d:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 220:	8b 45 08             	mov    0x8(%ebp),%eax
+ 223:	01 d0                	add    %edx,%eax
+ 225:	0f b6 00             	movzbl (%eax),%eax
+ 228:	0f be c0             	movsbl %al,%eax
+ 22b:	8b 93 00 00 00 00    	mov    0x0(%ebx),%edx
+ 231:	0f b6 14 02          	movzbl (%edx,%eax,1),%edx
+ 235:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+ 23b:	8b 00                	mov    (%eax),%eax
+ 23d:	01 d0                	add    %edx,%eax
+ 23f:	83 e0 7f             	and    $0x7f,%eax
+ 242:	88 01                	mov    %al,(%ecx)
+ 244:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 247:	8b 45 08             	mov    0x8(%ebp),%eax
+ 24a:	01 d0                	add    %edx,%eax
+ 24c:	0f b6 00             	movzbl (%eax),%eax
+ 24f:	3c 1f                	cmp    $0x1f,%al
+ 251:	7e 0f                	jle    262 <encode_2+0x77>
+ 253:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 256:	8b 45 08             	mov    0x8(%ebp),%eax
+ 259:	01 d0                	add    %edx,%eax
+ 25b:	0f b6 00             	movzbl (%eax),%eax
+ 25e:	3c 7f                	cmp    $0x7f,%al
+ 260:	75 0b                	jne    26d <encode_2+0x82>
+ 262:	8b 55 f4             	mov    -0xc(%ebp),%edx
+ 265:	8b 45 08             	mov    0x8(%ebp),%eax
+ 268:	01 d0                	add    %edx,%eax
+ 26a:	c6 00 2a             	movb   $0x2a,(%eax)
+ 26d:	83 45 f4 01          	addl   $0x1,-0xc(%ebp)
+ 271:	8b 45 f4             	mov    -0xc(%ebp),%eax
+ 274:	3b 45 f0             	cmp    -0x10(%ebp),%eax
+ 277:	7c 9b                	jl     214 <encode_2+0x29>
+ 279:	8b 45 f0             	mov    -0x10(%ebp),%eax
+ 27c:	83 c4 24             	add    $0x24,%esp
+ 27f:	5b                   	pop    %ebx
+ 280:	5d                   	pop    %ebp
+ 281:	c3                   	ret
+
+00000282 <do_phase>:
+ 282:	55                   	push   %ebp
+ 283:	89 e5                	mov    %esp,%ebp
+ 285:	53                   	push   %ebx
+ 286:	83 ec 14             	sub    $0x14,%esp
+ 289:	e8 fc ff ff ff       	call   28a <do_phase+0x8>
+ 28e:	81 c3 02 00 00 00    	add    $0x2,%ebx
+ //%ebx = PC+GOT+2 (the first) (opcode?)
+ 294:	c7 04 24 d2 00 00 00 	movl   $0xd2,(%esp)
+ // cookie=0xd2
+ 29b:	e8 fc ff ff ff       	call   29c <do_phase+0x1a>
+ //generate_code
+ 2a0:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+ // encoder
+ 2a6:	8b 00                	mov    (%eax),%eax
+ 2a8:	8b 93 00 00 00 00    	mov    0x0(%ebx),%edx
+ //BUFFER
+ 2ae:	89 14 24             	mov    %edx,(%esp) 
+ 2b1:	ff d0                	call   *%eax
+ //encode_1
+ 2b3:	8b 83 00 00 00 00    	mov    0x0(%ebx),%eax
+ //BUFFER
+ 2b9:	89 04 24             	mov    %eax,(%esp)
+ 2bc:	e8 fc ff ff ff       	call   2bd <do_phase+0x3b>
+ //puts(BUFFER)
+ 2c1:	83 c4 14             	add    $0x14,%esp
+ 2c4:	5b                   	pop    %ebx
+ 2c5:	5d                   	pop    %ebp
+ 2c6:	c3                   	ret
+
+Disassembly of section .text.__x86.get_pc_thunk.bx:
+
+00000000 <__x86.get_pc_thunk.bx>:
+   0: 8b 1c 24 movl (%esp),%ecx
+   3:c3 ret
