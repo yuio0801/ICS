@@ -1,0 +1,78 @@
+
+test.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <fEQhoBZaZh>:
+   0:	55                   	push   %ebp
+   1:	89 e5                	mov    %esp,%ebp
+   3:	83 ec 48             	sub    $0x48,%esp
+   6:	c7 45 d1 57 67 76 33 	movl   $0x33766757,-0x2f(%ebp)
+   d:	c7 45 d5 74 74 66 75 	movl   $0x75667474,-0x2b(%ebp)
+  14:	c7 45 d9 42 33 6d 64 	movl   $0x646d3342,-0x27(%ebp)
+  1b:	c7 45 dd 76 66 35 4d 	movl   $0x4d356676,-0x23(%ebp)
+  22:	c7 45 e1 57 75 5a 42 	movl   $0x425a7557,-0x1f(%ebp)
+  29:	c7 45 e5 74 6e 53 35 	movl   $0x35536e74,-0x1b(%ebp)
+  30:	c7 45 e9 4a 4d 30 4f 	movl   $0x4f304d4a,-0x17(%ebp)
+  37:	c7 45 ed 57 6c 55 43 	movl   $0x43556c57,-0x13(%ebp)
+  3e:	66 c7 45 f1 52 42    	movw   $0x4252,-0xf(%ebp)
+  44:	c6 45 f3 00          	movb   $0x0,-0xd(%ebp)
+  48:	8d 45 d1             	lea    -0x2f(%ebp),%eax
+  4b:	89 04 24             	mov    %eax,(%esp)
+  4e:	e8 fc ff ff ff       	call   4f <fEQhoBZaZh+0x4f>
+  53:	89 45 f4             	mov    %eax,-0xc(%ebp)
+  56:	83 7d 08 00          	cmpl   $0x0,0x8(%ebp)
+  5a:	78 15                	js     71 <fEQhoBZaZh+0x71>
+  5c:	8b 45 08             	mov    0x8(%ebp),%eax
+  5f:	3b 45 f4             	cmp    -0xc(%ebp),%eax
+  62:	7d 0d                	jge    71 <fEQhoBZaZh+0x71>
+  64:	8d 55 d1             	lea    -0x2f(%ebp),%edx
+  67:	8b 45 08             	mov    0x8(%ebp),%eax
+  6a:	01 d0                	add    %edx,%eax
+  6c:	0f b6 00             	movzbl (%eax),%eax
+  6f:	eb 05                	jmp    76 <fEQhoBZaZh+0x76>
+  71:	b8 00 00 00 00       	mov    $0x0,%eax
+  76:	c9                   	leave
+  77:	c3                   	ret
+
+00000078 <kTfFcnyi>:
+  78:	55                   	push   %ebp
+  79:	89 e5                	mov    %esp,%ebp
+  7b:	83 ec 18             	sub    $0x18,%esp
+  7e:	c7 44 24 04 02 00 00 	movl   $0x2,0x4(%esp)
+  85:	00 
+  86:	8b 45 08             	mov    0x8(%ebp),%eax
+  89:	89 04 24             	mov    %eax,(%esp)
+  8c:	e8 fc ff ff ff       	call   8d <kTfFcnyi+0x15>
+  91:	85 c0                	test   %eax,%eax
+  93:	74 02                	je     97 <kTfFcnyi+0x1f>
+  95:	eb 0b                	jmp    a2 <kTfFcnyi+0x2a>
+  97:	8b 45 0c             	mov    0xc(%ebp),%eax
+  9a:	89 04 24             	mov    %eax,(%esp)
+  9d:	e8 fc ff ff ff       	call   9e <kTfFcnyi+0x26>
+  a2:	c9                   	leave
+  a3:	c3                   	ret
+
+000000a4 <do_phase>:
+  a4:	55                   	push   %ebp
+  a5:	89 e5                	mov    %esp,%ebp
+  a7:	83 ec 1c             	sub    $0x1c,%esp
+  aa:	66 c7 44 24 18 32 00 	movw   $0x32,0x18(%esp)
+  b1:	c7 44 24 14 32 30 31 	movl   $0x34313032,0x14(%esp)
+  b8:	34 
+  b9:	c7 44 24 10 32 32 31 	movl   $0x32313232,0x10(%esp)
+  c0:	32 
+  c1:	c7 44 24 0c 41 68 66 	movl   $0x666841,0xc(%esp)
+  c8:	00 
+  c9:	c7 44 24 08 59 58 43 	movl   $0x69435859,0x8(%esp)
+  d0:	69 
+  d1:	8d 44 24 10          	lea    0x10(%esp),%eax
+  d5:	89 44 24 04          	mov    %eax,0x4(%esp)
+  d9:	8d 44 24 08          	lea    0x8(%esp),%eax
+  dd:	89 04 24             	mov    %eax,(%esp)
+  e0:	e8 93 ff ff ff       	call   78 <kTfFcnyi>
+  e5:	c9                   	leave
+  e6:	90                   	nop
+  e7:	90                   	nop
+  e8:	90                   	nop

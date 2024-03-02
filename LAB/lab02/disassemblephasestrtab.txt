@@ -1,0 +1,3 @@
+
+phase1.o:     file format elf32-i386
+

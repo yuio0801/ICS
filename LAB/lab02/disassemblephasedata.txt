@@ -1,0 +1,5 @@
+
+phase2.o:     file format elf32-i386
+
+Contents of section .data:
+ 0000 00000000 00000000                    ........        
